@@ -1,9 +1,11 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { supabase } from '$lib/supabase';
+
+const apiBaseUrl = (env.PUBLIC_API_URL || '').replace(/\/$/, '');
 
 export async function api(path, options = {}) {
   const { data } = await supabase.auth.getSession();
-  const res = await fetch(`${PUBLIC_API_URL}${path}`, {
+  const res = await fetch(`${apiBaseUrl}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',

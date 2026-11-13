@@ -1,10 +1,10 @@
 # Monorepo — Sistema de Administración
 
 - `apps/web` — Frontend SvelteKit (Svelte 5), desplegado en Vercel con `@sveltejs/adapter-vercel`.
-- `apps/api` — Backend Express (Node.js) como serverless function de Vercel (`api/[[...slug]].js`).
+- `apps/api` — Backend Express (Node.js) como service `api` de Vercel.
 - `supabase/schema.sql` — Esquema de base de datos + políticas RLS.
 
-## Despliegue en Vercel (monorepo: 2 proyectos)
+## Despliegue en Vercel (un proyecto con services)
 
 ### 1. Supabase
 
@@ -13,25 +13,18 @@
 3. En **Authentication → Users**, crea un usuario administrador.
 4. Copia `Project URL`, `anon key` y `service_role key` (Settings → API).
 
-### 2. Backend (`apps/api`)
+### 2. Vercel
 
-1. En Vercel → **Add New → Project** → importa el repo y selecciona **Root Directory: `apps/api`**.
-2. Framework preset: **Other** (o Node.js). No hace falta build command.
+1. En Vercel → **Add New → Project** → importa el repo desde la raíz.
+2. `vercel.json` define los services `web` (`apps/web`) y `api` (`apps/api`), y enruta `/api/*` al API y el resto al frontend.
 3. Agrega las variables de entorno:
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
-4. Despliega y anota la URL, ej. `https://api-xyz.vercel.app`.
-
-### 3. Frontend (`apps/web`)
-
-1. Otro proyecto en Vercel con **Root Directory: `apps/web`**.
-2. Framework preset: **SvelteKit** (se detecta solo).
-3. Agrega las variables de entorno:
    - `PUBLIC_SUPABASE_URL`
    - `PUBLIC_SUPABASE_ANON_KEY`
-   - `PUBLIC_API_URL` → la URL del backend del paso 2
-4. Despliega.
+4. No configures `PUBLIC_API_URL` en Vercel: el frontend usa `/api` en el mismo dominio.
+5. Despliega.
 
 ## Desarrollo local
 

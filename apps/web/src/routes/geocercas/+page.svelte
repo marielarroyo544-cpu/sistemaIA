@@ -155,8 +155,8 @@
     max-width: 900px;
   }
   pre {
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: #152622;
+    border: 1px solid #2c4a3f;
     border-radius: 0.5rem;
     padding: 1rem;
     overflow-x: auto;
